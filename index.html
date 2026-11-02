@@ -1,1 +1,207 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#b45309">
+<title>Ak Chauhan Cement Store</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif;background:#fff7ed;color:#1c1917}
+header{background:#b45309;color:#fff;padding:10px 14px;display:flex;align-items:center;gap:10px}
+header img{width:42px;height:42px;border-radius:10px;object-fit:cover;background:#fff3}
+header b{flex:1;font-size:15px;line-height:1.2}
+header button{background:#fff3;color:#fff;border:0;padding:6px 10px;border-radius:8px;font-size:13px}
+main{max-width:480px;margin:0 auto;padding:12px}
+.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 1px 4px #0002}
+input,select,button.big{width:100%;padding:12px;margin:6px 0;font-size:16px;border:1px solid #d6d3d1;border-radius:10px;background:#fff}
+button.big{background:#b45309;color:#fff;border:0;font-weight:700}
+button.sm{padding:9px 12px;border:0;background:#16a34a;color:#fff;border-radius:8px;font-weight:700}
+.link{background:none;border:0;color:#b45309;width:100%;padding:8px;font-size:14px}
+.num{font-size:44px;font-weight:800;color:#b45309}
+.bar{height:12px;background:#e7e5e4;border-radius:6px;overflow:hidden}
+.bar div{height:100%;background:#16a34a}
+.msg{border-left:4px solid #b45309;padding:6px 10px;margin:8px 0;background:#fffbeb;border-radius:6px}
+small{color:#78716c}
+.row{display:flex;gap:8px;align-items:center}
+.row input{margin:0}
+.av{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#e7e5e4;flex:none}
+.gift{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:8px}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1;padding:10px 4px;border:0;border-radius:10px;background:#fed7aa;font-weight:700}
+.tabs button.on{background:#b45309;color:#fff}
+.tag{display:inline-block;padding:2px 8px;border-radius:99px;background:#fde68a;font-size:12px;font-weight:700}
+.err{color:#dc2626;font-size:14px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header><img id="logo" alt=""><b id="shop"></b><button id="lg"></button><button id="out" class="hidden"></button></header>
+<main id="app"></main>
 
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,setDoc,getDocs,collection,query,where,orderBy,limit,onSnapshot,addDoc,updateDoc,deleteDoc,getDoc,increment,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyDW36m4WsVthRtKWGW1a-gcxEvQ_1lraPs",
+  authDomain: "ak-chauhan-cement-store.firebaseapp.com",
+  projectId: "ak-chauhan-cement-store",
+  storageBucket: "ak-chauhan-cement-store.firebasestorage.app",
+  messagingSenderId: "1031565749928",
+  appId: "1:1031565749928:web:eb15121392a129c26bdc9d"
+});
+const auth = getAuth(app), db = getFirestore(app);
+const SHOP = "Ak Chauhan Cement Store", OWNER = "Lokendra Kumar";
+
+const T = {
+hi:{lang:"English",out:"लॉगआउट",login:"लॉगिन",signup:"नया अकाउंट",name:"आपका नाम",phone:"मोबाइल नंबर (10 अंक)",pass:"पासवर्ड (कम से कम 6 अक्षर)",go:"आगे बढ़ें",have:"अकाउंट है? लॉगिन करें",new:"नया हूँ? अकाउंट बनाएँ",e10:"10 अंक का नंबर डालें",e6:"पासवर्ड कम से कम 6 अक्षर का रखें",en:"नाम डालें",eused:"यह नंबर पहले से है, लॉगिन करें",ebad:"नंबर या पासवर्ड गलत है",hello:"नमस्ते",bags:"कट्टे अब तक",need:"अगले गिफ्ट के लिए और कट्टे:",gifts:"अब तक मिले गिफ्ट:",giftnow:"🎁 आपका गिफ्ट",msgs:"📢 दुकान के संदेश",nomsg:"अभी कोई संदेश नहीं",owner:"मालिक",order:"🛒 ऑर्डर करें",item:"सीमेंट चुनें",qty:"कितने कट्टे?",place:"ऑर्डर भेजें",myord:"मेरे ऑर्डर",noord:"अभी कोई ऑर्डर नहीं",sent:"ऑर्डर भेज दिया ✅",tOrd:"ऑर्डर",tMis:"मिस्त्री",tSet:"सेटिंग",bcast:"📢 सबको संदेश भेजें",send:"भेजें",mlist:"👷 मिस्त्री सूची",nomis:"अभी कोई मिस्त्री नहीं। उनसे लिंक खोलकर अकाउंट बनवाएँ।",addb:"+ जोड़ें",nb:"कितने कट्टे?",save:"सेव करें",saved:"सेव हो गया ✅",slogo:"दुकान का लोगो",sown:"मालिक की फोटो",sgift:"गिफ्ट की फोटो",stext:"गिफ्ट का नाम (जैसे: ₹500 का सामान)",starget:"कितने कट्टे पर गिफ्ट?",scem:"सीमेंट के प्रकार (कॉमा से अलग करें)",photo:"📷 फोटो बदलें",status:{new:"नया",accepted:"स्वीकार",dispatched:"भेज दिया",delivered:"पहुँच गया"},next:{new:"स्वीकार करें",accepted:"भेज दिया",dispatched:"पहुँच गया"},gift:"गिफ्ट",addm:"➕ नया मिस्त्री जोड़ें",addb2:"जोड़ें",pend:"बुलाया गया",del:"हटाएँ",delq:"पक्का हटाना है?",wa:"WhatsApp",sms:"SMS",sbanner:"त्योहार / ऑफर बैनर",gone:"यह अकाउंट हटा दिया गया है।",dup:"यह नंबर पहले से जुड़ा है"},
+en:{lang:"हिन्दी",out:"Logout",login:"Login",signup:"New Account",name:"Your name",phone:"Mobile number (10 digits)",pass:"Password (min 6 characters)",go:"Continue",have:"Have an account? Login",new:"New here? Create account",e10:"Enter a 10 digit number",e6:"Password must be at least 6 characters",en:"Enter your name",eused:"Number already registered, please login",ebad:"Wrong number or password",hello:"Namaste",bags:"bags so far",need:"More bags for next gift:",gifts:"Gifts won so far:",giftnow:"🎁 Your gift",msgs:"📢 Shop messages",nomsg:"No messages yet",owner:"Owner",order:"🛒 Place order",item:"Choose cement",qty:"How many bags?",place:"Send order",myord:"My orders",noord:"No orders yet",sent:"Order sent ✅",tOrd:"Orders",tMis:"Mistris",tSet:"Settings",bcast:"📢 Message everyone",send:"Send",mlist:"👷 Mistri list",nomis:"No mistri yet. Ask them to open the link and sign up.",addb:"+ Add",nb:"How many bags?",save:"Save",saved:"Saved ✅",slogo:"Shop logo",sown:"Owner photo",sgift:"Gift photo",stext:"Gift name (e.g. ₹500 item)",starget:"Gift after how many bags?",scem:"Cement types (comma separated)",photo:"📷 Change photo",status:{new:"New",accepted:"Accepted",dispatched:"Dispatched",delivered:"Delivered"},next:{new:"Accept",accepted:"Dispatched",dispatched:"Delivered"},gift:"Gift",addm:"➕ Add new mistri",addb2:"Add",pend:"Invited",del:"Delete",delq:"Delete for sure?",wa:"WhatsApp",sms:"SMS",sbanner:"Festival / offer banner",gone:"This account was removed.",dup:"This number is already added"}
+};
+let lang = "hi"; try { lang = localStorage.getItem("lang") || "hi"; } catch(e){}
+const t = k => T[lang][k];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mail = p => p + "@mistri.app";
+const DEF = "data:image/gif;base64,R0lGODlhAQABAIAAAOfl5AAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
+let U = null, ME = null, S = {}, MSGS = [], ORD = [], USERS = [], INV = [], tab = "o", signup = false, unsubs = [];
+
+// PWA manifest
+const ml = document.createElement("link"); ml.rel = "manifest";
+ml.href = URL.createObjectURL(new Blob([JSON.stringify({name:SHOP,short_name:"Chauhan Cement",display:"standalone",start_url:".",background_color:"#fff7ed",theme_color:"#b45309"})], {type:"application/json"}));
+document.head.appendChild(ml);
+
+// photo -> small jpeg text
+function pick(cb, m0 = 320){
+  const i = document.createElement("input"); i.type = "file"; i.accept = "image/*";
+  i.onchange = () => { const f = i.files[0]; if (!f) return; const im = new Image();
+    im.onload = () => { const m = m0, r = Math.min(1, m / Math.max(im.width, im.height)), c = document.createElement("canvas");
+      c.width = im.width * r; c.height = im.height * r; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); cb(c.toDataURL("image/jpeg", .7)); };
+    im.src = URL.createObjectURL(f); };
+  i.click();
+}
+const stopAll = () => { unsubs.forEach(u => u()); unsubs = []; };
+const stl = s => (T[lang].status[s] || s);
+
+function head(){
+  $("shop").textContent = SHOP; $("lg").textContent = t("lang"); $("out").textContent = t("out");
+  $("logo").src = S.logo || DEF; $("logo").style.visibility = S.logo ? "visible" : "hidden";
+}
+
+function authView(){
+  stopAll(); $("out").classList.add("hidden");
+  $("app").innerHTML = `<div class="card"><h2>${signup ? t("signup") : t("login")}</h2>
+    ${signup ? `<input id="n" placeholder="${t("name")}">` : ""}
+    <input id="p" type="tel" maxlength="10" placeholder="${t("phone")}">
+    <input id="w" type="password" placeholder="${t("pass")}">
+    <div id="e" class="err"></div>
+    <button class="big" id="go">${t("go")}</button>
+    <button class="link" id="sw">${signup ? t("have") : t("new")}</button></div>`;
+  $("sw").onclick = () => { signup = !signup; authView(); };
+  $("go").onclick = async () => {
+    const p = $("p").value.trim(), w = $("w").value, n = signup ? $("n").value.trim() : "";
+    if (!/^\d{10}$/.test(p)) return $("e").textContent = t("e10");
+    if (w.length < 6) return $("e").textContent = t("e6");
+    if (signup && !n) return $("e").textContent = t("en");
+    $("go").disabled = true; $("e").textContent = "";
+    try {
+      if (signup) {
+        const c = await createUserWithEmailAndPassword(auth, mail(p), w);
+        const first = (await getDocs(query(collection(db,"users"), limit(1)))).empty;
+        let inv = null; try { const iv = await getDoc(doc(db,"invites",p)); if (iv.exists()) inv = iv.data(); } catch(e){}
+        await setDoc(doc(db,"users",c.user.uid), {name: inv?.name || n, phone:p, bags: inv?.bags || 0, ...(inv?.photo ? {photo:inv.photo} : {}), role: first ? "owner" : "mistri", created: serverTimestamp()});
+        if (inv) deleteDoc(doc(db,"invites",p)).catch(()=>{});
+      } else await signInWithEmailAndPassword(auth, mail(p), w);
+    } catch (x) {
+      $("e").textContent = x.code === "auth/email-already-in-use" ? t("eused") : x.code === "auth/invalid-credential" ? t("ebad") : "Error: " + x.code;
+      $("go").disabled = false;
+    }
+  };
+}
+
+const ownerCard = () => `<div class="card row"><img class="av" src="${S.ownerPhoto || DEF}"><div><small>${t("owner")}</small><br><b>${OWNER}</b></div></div>`;
+const msgHtml = () => MSGS.length ? MSGS.map(m => `<div class="msg">${esc(m.text)}${ME && ME.role === "owner" ? ` <button class="sm" style="background:#dc2626" data-dm="${m.id}">🗑</button>` : ""}<br><small>${m.ts ? m.ts.toDate().toLocaleString("en-IN",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : ""}</small></div>`).join("") : `<p>${t("nomsg")}</p>`;
+const cems = () => (S.cements || "PPC, OPC").split(",").map(x => x.trim()).filter(Boolean);
+const ordHtml = (list, own) => list.length ? list.map(o => `<div class="msg"><b>${esc(o.item)}</b> × ${o.qty}<br>${own ? "" : esc(o.name) + " · " + esc(o.phone) + "<br>"}<span class="tag">${stl(o.status)}</span>
+  ${!own && T[lang].next[o.status] ? ` <button class="sm" data-o="${o.id}" data-s="${o.status}">${T[lang].next[o.status]}</button>` : ""}</div>`).join("") : `<p>${t("noord")}</p>`;
+
+function buildMistri(){
+  $("app").innerHTML = `<div id="bn"></div><div id="oc"></div><div class="card" id="mc"></div><div class="card" id="gc"></div>
+  <div class="card"><b>${t("order")}</b><select id="it"></select><input id="q" type="number" placeholder="${t("qty")}"><div id="oe" class="err"></div><button class="big" id="ob">${t("place")}</button></div>
+  <div class="card"><b>${t("myord")}</b><div id="ol"></div></div>
+  <div class="card"><b>${t("msgs")}</b><div id="ml"></div></div>`;
+  $("ob").onclick = async () => { const q = parseInt($("q").value); if (!q || q < 1) return;
+    await addDoc(collection(db,"orders"), {uid:U.uid, name:ME.name, phone:ME.phone, item:$("it").value, qty:q, status:"new", ts:serverTimestamp()});
+    $("q").value = ""; $("oe").style.color = "#16a34a"; $("oe").textContent = t("sent"); setTimeout(() => $("oe").textContent = "", 3000); };
+  unsubs.push(onSnapshot(query(collection(db,"orders"), where("uid","==",U.uid)), s => { ORD = s.docs.map(d => ({id:d.id, ...d.data()})).sort((a,b) => (b.ts?.seconds||9e9) - (a.ts?.seconds||9e9)); paint(); }));
+}
+
+function buildOwner(){
+  $("app").innerHTML = `<div id="oc"></div>
+  <div class="tabs"><button data-t="o">${t("tOrd")}</button><button data-t="m">${t("tMis")}</button><button data-t="s">${t("tSet")}</button></div>
+  <div id="po"><div class="card" id="ol"></div></div>
+  <div id="pm"><div class="card"><b>${t("bcast")}</b><input id="mt"><button class="big" id="ms">${t("send")}</button><div id="ml"></div></div><div class="card"><b>${t("addm")}</b><input id="an" placeholder="${t("name")}"><input id="ap" type="tel" maxlength="10" placeholder="${t("phone")}"><button class="big" id="ab">${t("addb2")}</button><div id="ae" class="err"></div></div><div class="card"><b>${t("mlist")}</b><div id="us"></div></div></div>
+  <div id="ps"><div class="card">
+    <b>${t("slogo")}</b><br><button class="sm" data-p="logo">${t("photo")}</button><br><br>
+    <b>${t("sown")}</b><br><button class="sm" data-p="ownerPhoto">${t("photo")}</button><br><br>
+    <b>${t("sgift")}</b><br><button class="sm" data-p="giftPhoto">${t("photo")}</button><img class="gift" id="gp"><br>
+    <b>${t("sbanner")}</b><br><button class="sm" data-p="banner">${t("photo")}</button> <button class="sm" style="background:#dc2626" data-rm="1">${t("del")}</button><img class="gift" id="bp"><br><br><b>${t("stext")}</b><input id="gt"><b>${t("starget")}</b><input id="gb" type="number"><b>${t("scem")}</b><input id="gc2">
+    <button class="big" id="sv">${t("save")}</button><div id="se" class="err"></div></div></div>`;
+  document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { tab = b.dataset.t; if (tab === "s") fillSet(); paint(); });
+  $("ml").onclick = async e => { const id = e.target.dataset.dm; if (id && confirm(t("delq"))) await deleteDoc(doc(db,"messages",id)); };
+  $("ab").onclick = async () => { const n = $("an").value.trim(), ph = $("ap").value.trim(); $("ae").textContent = "";
+    if (!n) return $("ae").textContent = t("en"); if (!/^\d{10}$/.test(ph)) return $("ae").textContent = t("e10");
+    if ([...USERS, ...INV].some(x => x.phone === ph)) return $("ae").textContent = t("dup");
+    await setDoc(doc(db,"invites",ph), {name:n, phone:ph, bags:0}); $("an").value = ""; $("ap").value = ""; };
+  $("ms").onclick = async () => { const x = $("mt").value.trim(); if (x) { await addDoc(collection(db,"messages"), {text:x, ts:serverTimestamp()}); $("mt").value = ""; } };
+  $("ol").onclick = async e => { const id = e.target.dataset.o; if (!id) return; const nx = {new:"accepted",accepted:"dispatched",dispatched:"delivered"}[e.target.dataset.s]; await updateDoc(doc(db,"orders",id), {status:nx}); };
+  const inv = m => `नमस्ते ${m.name}! ${SHOP} का ऐप आ गया है। कट्टों पर गिफ्ट, ऑर्डर और ऑफर देखने के लिए इसी नंबर से अकाउंट बनाइए: ` + location.origin + location.pathname;
+  $("us").onclick = async e => { const d = e.target.dataset, id = d.u || d.id; if (!id) return; const col = d.c, m = [...USERS, ...INV].find(x => x.id === id); if (!m) return;
+    if (d.a === "wa") return void window.open("https://wa.me/91" + m.phone + "?text=" + encodeURIComponent(inv(m)), "_blank");
+    if (d.a === "sms") return void (location.href = "sms:" + m.phone + "?body=" + encodeURIComponent(inv(m)));
+    if (d.a === "ph") return pick(x => updateDoc(doc(db,col,id), {photo:x}));
+    if (d.a === "del") { if (confirm(t("delq"))) await deleteDoc(doc(db,col,id)); return; }
+    if (d.u) { const n = parseInt($("b-"+id).value); if (n) { await updateDoc(doc(db,col,id), {bags:increment(n)}); $("b-"+id).value = ""; } } };
+  unsubs.push(onSnapshot(collection(db,"invites"), s => { INV = s.docs.map(d => ({id:d.id, pend:true, ...d.data()})); paint(); }));
+  $("ps").onclick = async e => { if (e.target.dataset.rm) return void await setDoc(doc(db,"settings","shop"), {banner:""}, {merge:true}); const k = e.target.dataset.p; if (!k) return; pick(async d => { await setDoc(doc(db,"settings","shop"), {[k]:d}, {merge:true}); }, k === "banner" ? 800 : 320); };
+  $("sv").onclick = async () => { await setDoc(doc(db,"settings","shop"), {giftText:$("gt").value.trim(), giftBags:parseInt($("gb").value) || 100, cements:$("gc2").value.trim()}, {merge:true}); $("se").style.color = "#16a34a"; $("se").textContent = t("saved"); setTimeout(() => $("se").textContent = "", 2500); };
+  unsubs.push(onSnapshot(query(collection(db,"orders"), orderBy("ts","desc"), limit(40)), s => { ORD = s.docs.map(d => ({id:d.id, ...d.data()})); paint(); }));
+  unsubs.push(onSnapshot(collection(db,"users"), s => { USERS = s.docs.filter(d => d.data().role === "mistri").map(d => ({id:d.id, ...d.data()})); paint(); }));
+}
+function fillSet(){ $("gt").value = S.giftText || ""; $("gb").value = S.giftBags || 100; $("gc2").value = S.cements || "PPC, OPC"; }
+
+function paint(){
+  head(); if (!ME) return;
+  $("oc") && ($("oc").innerHTML = ownerCard());
+  $("ml") && ($("ml").innerHTML = msgHtml());
+  if (ME.role === "owner") {
+    document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === tab));
+    $("po").classList.toggle("hidden", tab !== "o"); $("pm").classList.toggle("hidden", tab !== "m"); $("ps").classList.toggle("hidden", tab !== "s");
+    $("ol").innerHTML = ordHtml(ORD, false);
+    const all = [...USERS, ...INV]; $("us").innerHTML = all.length ? all.map(m => { const c = m.pend ? "invites" : "users"; return `<div class="row" style="margin:12px 0 4px"><img class="av" src="${m.photo || DEF}"><div style="flex:1"><b>${esc(m.name)}</b> · ${esc(m.phone)} ${m.pend ? `<span class="tag">${t("pend")}</span>` : ""}<br>${m.bags} / ${Math.floor(m.bags/(S.giftBags||100))} ${t("gift")}</div></div>
+      <div class="row" style="flex-wrap:wrap"><button class="sm" data-a="wa" data-id="${m.id}">${t("wa")}</button><button class="sm" data-a="sms" data-id="${m.id}">${t("sms")}</button><button class="sm" style="background:#78716c" data-a="ph" data-id="${m.id}" data-c="${c}">📷</button><button class="sm" style="background:#dc2626" data-a="del" data-id="${m.id}" data-c="${c}">🗑</button></div>
+      <div class="row" style="margin-top:6px"><input type="number" placeholder="${t("nb")}" id="b-${m.id}"><button class="sm" data-u="${m.id}" data-c="${c}">${t("addb")}</button></div>`; }).join("") : `<p>${t("nomis")}</p>`;
+    $("gp").src = S.giftPhoto || DEF; $("gp").style.display = S.giftPhoto ? "block" : "none"; $("bp").src = S.banner || DEF; $("bp").style.display = S.banner ? "block" : "none";
+  } else {
+    $("bn").innerHTML = S.banner ? `<img class="gift" style="margin:0 0 12px;max-height:240px" src="${S.banner}">` : "";
+    const g = S.giftBags || 100, into = ME.bags % g;
+    $("mc").innerHTML = `<div class="row"><img class="av" id="mp" src="${ME.photo || DEF}"><div style="flex:1">${t("hello")}, <b>${esc(ME.name)}</b> 🙏<br><button class="link" style="text-align:left;padding:2px 0" id="cp">${t("photo")}</button></div></div>
+      <div class="num">${ME.bags}</div><div>${t("bags")}</div><br><div class="bar"><div style="width:${into/g*100}%"></div></div>
+      <p>${t("need")} <b>${g - into}</b><br>${t("gifts")} <b>${Math.floor(ME.bags/g)}</b></p>`;
+    $("cp").onclick = () => pick(d => updateDoc(doc(db,"users",U.uid), {photo:d}));
+    $("gc").innerHTML = S.giftPhoto || S.giftText ? `<b>${t("giftnow")}</b> ${esc(S.giftText || "")}${S.giftPhoto ? `<img class="gift" src="${S.giftPhoto}">` : ""}` : "";
+    $("gc").style.display = S.giftPhoto || S.giftText ? "block" : "none";
+    const sel = $("it"), k = cems().join("|"); if (sel.dataset.k !== k) { sel.dataset.k = k; sel.innerHTML = cems().map(c => `<option>${esc(c)}</option>`).join(""); }
+    $("ol").innerHTML = ordHtml(ORD, true);
+  }
+}
+
+function build(){ ME.role === "owner" ? buildOwner() : buildMistri(); paint(); }
+
+onAuthStateChanged(auth, user => {
+  stopAll(); U = user; ME = null;
+  if (!user) return authView();
+  $("out").classList.remove("hidden"); $("app").innerHTML = "<p>...</p>";
+  unsubs.push(onSnapshot(doc(db,"settings","shop"), s => { S = s.data() || {}; paint(); }));
+  unsubs.push(onSnapshot(query(collection(db,"messages"), orderBy("ts","desc"), limit(15)), s => { MSGS = s.do
