@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -58,8 +57,8 @@ const auth = getAuth(app), db = getFirestore(app);
 const SHOP = "Ak Chauhan Cement Store", OWNER = "Lokendra Kumar", OPH = "9456897702", ADDR = "Sarakthal, Madho Maujampur, Suraj";
 
 const T = {
-hi:{lang:"English",out:"लॉगआउट",login:"लॉगिन",signup:"नया अकाउंट",name:"आपका नाम",phone:"मोबाइल नंबर (10 अंक)",pass:"पासवर्ड (कम से कम 6 अक्षर)",go:"आगे बढ़ें",have:"अकाउंट है? लॉगिन करें",new:"नया हूँ? अकाउंट बनाएँ",e10:"10 अंक का नंबर डालें",e6:"पासवर्ड कम से कम 6 अक्षर का रखें",en:"नाम डालें",eused:"यह नंबर पहले से है, लॉगिन करें",ebad:"नंबर या पासवर्ड गलत है",hello:"नमस्ते",bags:"कट्टे अब तक",need:"अगले गिफ्ट के लिए और कट्टे:",gifts:"अब तक मिले गिफ्ट:",giftnow:"🎁 आपका गिफ्ट",msgs:"📢 दुकान के संदेश",nomsg:"अभी कोई संदेश नहीं",owner:"मालिक",order:"🛒 ऑर्डर करें",item:"सीमेंट चुनें",qty:"कितने कट्टे?",place:"ऑर्डर भेजें",myord:"मेरे ऑर्डर",noord:"अभी कोई ऑर्डर नहीं",sent:"ऑर्डर भेज दिया ✅",tOrd:"ऑर्डर",tMis:"मिस्त्री",tSet:"सेटिंग",bcast:"📢 सबको संदेश भेजें",send:"भेजें",mlist:"👷 मिस्त्री सूची",nomis:"अभी कोई मिस्त्री नहीं। उनसे लिंक खोलकर अकाउंट बनवाएँ।",addb:"+ जोड़ें",nb:"कितने कट्टे?",save:"सेव करें",saved:"सेव हो गया ✅",slogo:"दुकान का लोगो",sown:"मालिक की फोटो",sgift:"गिफ्ट की फोटो",stext:"गिफ्ट का नाम (जैसे: ₹500 का सामान)",starget:"कितने कट्टे पर गिफ्ट?",scem:"सीमेंट के प्रकार (कॉमा से अलग करें)",photo:"📷 फोटो बदलें",status:{new:"नया",accepted:"स्वीकार",dispatched:"भेज दिया",delivered:"पहुँच गया"},next:{new:"स्वीकार करें",accepted:"भेज दिया",dispatched:"पहुँच गया"},gift:"गिफ्ट",addm:"➕ नया मिस्त्री जोड़ें",addb2:"जोड़ें",pend:"बुलाया गया",del:"हटाएँ",delq:"पक्का हटाना है?",wa:"WhatsApp",sms:"SMS",sbanner:"त्योहार / ऑफर बैनर",gone:"यह अकाउंट हटा दिया गया है।",dup:"यह नंबर पहले से जुड़ा है",tPro:"सामान",contact:"📞 दुकान से बात करें",call:"कॉल करें",addp:"➕ नया सामान जोड़ें",pname:"नाम (जैसे: सीमेंट, रेत, बजरी)",ptype:"प्रकार (PPC / OPC / कुछ नहीं)",pprice:"रेट (₹)",punit:"यूनिट (बोरी / ट्रॉली / ट्रैक्टर)",buy:"ऑर्डर",addr:"डिलीवरी का पता लिखें",locb:"मेरी लोकेशन भेजें",locok:"लोकेशन मिल गई",locno:"लोकेशन नहीं मिली, पता लिखें",loc:"लोकेशन",total:"कुल",nopro:"अभी कोई सामान नहीं",steps:["ऑर्डर मिला","कन्फर्म हुआ","डिस्पैच हुआ","रास्ते में","पहुँच गया"],nexts:["कन्फर्म करें","डिस्पैच करें","रास्ते में","पहुँच गया"]},
-en:{lang:"हिन्दी",out:"Logout",login:"Login",signup:"New Account",name:"Your name",phone:"Mobile number (10 digits)",pass:"Password (min 6 characters)",go:"Continue",have:"Have an account? Login",new:"New here? Create account",e10:"Enter a 10 digit number",e6:"Password must be at least 6 characters",en:"Enter your name",eused:"Number already registered, please login",ebad:"Wrong number or password",hello:"Namaste",bags:"bags so far",need:"More bags for next gift:",gifts:"Gifts won so far:",giftnow:"🎁 Your gift",msgs:"📢 Shop messages",nomsg:"No messages yet",owner:"Owner",order:"🛒 Place order",item:"Choose cement",qty:"How many bags?",place:"Send order",myord:"My orders",noord:"No orders yet",sent:"Order sent ✅",tOrd:"Orders",tMis:"Mistris",tSet:"Settings",bcast:"📢 Message everyone",send:"Send",mlist:"👷 Mistri list",nomis:"No mistri yet. Ask them to open the link and sign up.",addb:"+ Add",nb:"How many bags?",save:"Save",saved:"Saved ✅",slogo:"Shop logo",sown:"Owner photo",sgift:"Gift photo",stext:"Gift name (e.g. ₹500 item)",starget:"Gift after how many bags?",scem:"Cement types (comma separated)",photo:"📷 Change photo",status:{new:"New",accepted:"Accepted",dispatched:"Dispatched",delivered:"Delivered"},next:{new:"Accept",accepted:"Dispatched",dispatched:"Delivered"},gift:"Gift",addm:"➕ Add new mistri",addb2:"Add",pend:"Invited",del:"Delete",delq:"Delete for sure?",wa:"WhatsApp",sms:"SMS",sbanner:"Festival / offer banner",gone:"This account was removed.",dup:"This number is already added",tPro:"Products",contact:"📞 Contact the shop",call:"Call",addp:"➕ Add product",pname:"Name (e.g. Cement, Sand, Bajri)",ptype:"Type (PPC / OPC / none)",pprice:"Rate (₹)",punit:"Unit (bag / trolley / tractor)",buy:"Order",addr:"Enter delivery address",locb:"Send my location",locok:"Location received",locno:"Location unavailable, enter address",loc:"Location",total:"Total",nopro:"No products yet",steps:["Order placed","Confirmed","Dispatched","Out for delivery","Delivered"],nexts:["Confirm","Dispatch","Out for delivery","Delivered"]}
+hi:{lang:"English",out:"लॉगआउट",login:"लॉगिन",signup:"नया अकाउंट",name:"आपका नाम",phone:"मोबाइल नंबर (10 अंक)",pass:"पासवर्ड (कम से कम 6 अक्षर)",go:"आगे बढ़ें",have:"अकाउंट है? लॉगिन करें",new:"नया हूँ? अकाउंट बनाएँ",e10:"10 अंक का नंबर डालें",e6:"पासवर्ड कम से कम 6 अक्षर का रखें",en:"नाम डालें",eused:"यह नंबर पहले से है, लॉगिन करें",ebad:"नंबर या पासवर्ड गलत है",hello:"नमस्ते",bags:"कट्टे अब तक",need:"अगले गिफ्ट के लिए और कट्टे:",gifts:"अब तक मिले गिफ्ट:",giftnow:"🎁 {g} कट्टे का टारगेट पूरा करने पर यह गिफ्ट मिलेगा",msgs:"📢 दुकान के संदेश",nomsg:"अभी कोई संदेश नहीं",owner:"मालिक",order:"🛒 ऑर्डर करें",item:"सीमेंट चुनें",qty:"कितने कट्टे?",place:"ऑर्डर भेजें",myord:"मेरे ऑर्डर",noord:"अभी कोई ऑर्डर नहीं",sent:"ऑर्डर भेज दिया ✅",tOrd:"ऑर्डर",tMis:"मिस्त्री",tSet:"सेटिंग",bcast:"📢 सबको संदेश भेजें",send:"भेजें",mlist:"👷 मिस्त्री सूची",nomis:"अभी कोई मिस्त्री नहीं। उनसे लिंक खोलकर अकाउंट बनवाएँ।",addb:"+ जोड़ें",nb:"कितने कट्टे?",save:"सेव करें",saved:"सेव हो गया ✅",slogo:"दुकान का लोगो",sown:"मालिक की फोटो",sgift:"गिफ्ट की फोटो",stext:"गिफ्ट का नाम (जैसे: ₹500 का सामान)",starget:"कितने कट्टे पर गिफ्ट?",scem:"सीमेंट के प्रकार (कॉमा से अलग करें)",photo:"📷 फोटो बदलें",status:{new:"नया",accepted:"स्वीकार",dispatched:"भेज दिया",delivered:"पहुँच गया"},next:{new:"स्वीकार करें",accepted:"भेज दिया",dispatched:"पहुँच गया"},gift:"गिफ्ट",addm:"➕ नया मिस्त्री जोड़ें",addb2:"जोड़ें",pend:"बुलाया गया",del:"हटाएँ",delq:"पक्का हटाना है?",wa:"WhatsApp",sms:"SMS",sbanner:"त्योहार / ऑफर बैनर",gone:"यह अकाउंट हटा दिया गया है।",dup:"यह नंबर पहले से जुड़ा है",tPro:"सामान",contact:"📞 दुकान से बात करें",call:"कॉल करें",addp:"➕ नया सामान जोड़ें",pname:"नाम (जैसे: सीमेंट, रेत, बजरी)",ptype:"प्रकार (PPC / OPC / कुछ नहीं)",pprice:"रेट (₹)",punit:"यूनिट (बोरी / ट्रॉली / ट्रैक्टर)",buy:"ऑर्डर",addr:"डिलीवरी का पता लिखें",locb:"मेरी लोकेशन भेजें",locok:"लोकेशन मिल गई",locno:"लोकेशन नहीं मिली, पता लिखें",loc:"लोकेशन",total:"कुल",nopro:"अभी कोई सामान नहीं",steps:["ऑर्डर मिला","कन्फर्म हुआ","डिस्पैच हुआ","रास्ते में","पहुँच गया"],nexts:["कन्फर्म करें","डिस्पैच करें","रास्ते में","पहुँच गया"],etoo:"बहुत बार गलत कोशिश हुई। 15-30 मिनट बाद फिर करें, या दुकान को कॉल करें।",enet:"इंटरनेट चेक करें और फिर कोशिश करें",forgot:"पासवर्ड भूल गए? दुकान को कॉल करें:",tdone:"🎉 टारगेट पूरा! मिस्त्री को बधाई संदेश भेजें"},
+en:{lang:"हिन्दी",out:"Logout",login:"Login",signup:"New Account",name:"Your name",phone:"Mobile number (10 digits)",pass:"Password (min 6 characters)",go:"Continue",have:"Have an account? Login",new:"New here? Create account",e10:"Enter a 10 digit number",e6:"Password must be at least 6 characters",en:"Enter your name",eused:"Number already registered, please login",ebad:"Wrong number or password",hello:"Namaste",bags:"bags so far",need:"More bags for next gift:",gifts:"Gifts won so far:",giftnow:"🎁 Complete {g} bags to win this gift",msgs:"📢 Shop messages",nomsg:"No messages yet",owner:"Owner",order:"🛒 Place order",item:"Choose cement",qty:"How many bags?",place:"Send order",myord:"My orders",noord:"No orders yet",sent:"Order sent ✅",tOrd:"Orders",tMis:"Mistris",tSet:"Settings",bcast:"📢 Message everyone",send:"Send",mlist:"👷 Mistri list",nomis:"No mistri yet. Ask them to open the link and sign up.",addb:"+ Add",nb:"How many bags?",save:"Save",saved:"Saved ✅",slogo:"Shop logo",sown:"Owner photo",sgift:"Gift photo",stext:"Gift name (e.g. ₹500 item)",starget:"Gift after how many bags?",scem:"Cement types (comma separated)",photo:"📷 Change photo",status:{new:"New",accepted:"Accepted",dispatched:"Dispatched",delivered:"Delivered"},next:{new:"Accept",accepted:"Dispatched",dispatched:"Delivered"},gift:"Gift",addm:"➕ Add new mistri",addb2:"Add",pend:"Invited",del:"Delete",delq:"Delete for sure?",wa:"WhatsApp",sms:"SMS",sbanner:"Festival / offer banner",gone:"This account was removed.",dup:"This number is already added",tPro:"Products",contact:"📞 Contact the shop",call:"Call",addp:"➕ Add product",pname:"Name (e.g. Cement, Sand, Bajri)",ptype:"Type (PPC / OPC / none)",pprice:"Rate (₹)",punit:"Unit (bag / trolley / tractor)",buy:"Order",addr:"Enter delivery address",locb:"Send my location",locok:"Location received",locno:"Location unavailable, enter address",loc:"Location",total:"Total",nopro:"No products yet",steps:["Order placed","Confirmed","Dispatched","Out for delivery","Delivered"],nexts:["Confirm","Dispatch","Out for delivery","Delivered"],etoo:"Too many wrong attempts. Try again after 15-30 minutes, or call the shop.",enet:"Check your internet and try again",forgot:"Forgot password? Call the shop:",tdone:"🎉 Target reached! Send congratulations to the mistri"}
 };
 let lang = "hi"; try { lang = localStorage.getItem("lang") || "hi"; } catch(e){}
 const t = k => T[lang][k];
@@ -99,7 +98,8 @@ function authView(){
     <input id="w" type="password" placeholder="${t("pass")}">
     <div id="e" class="err"></div>
     <button class="big" id="go">${t("go")}</button>
-    <button class="link" id="sw">${signup ? t("have") : t("new")}</button></div>`;
+    <button class="link" id="sw">${signup ? t("have") : t("new")}</button>
+    <p style="text-align:center;font-size:13px;margin:4px 0">${t("forgot")} <a href="tel:${OPH}">${OPH}</a></p></div>`;
   $("sw").onclick = () => { signup = !signup; authView(); };
   $("go").onclick = async () => {
     const p = $("p").value.trim(), w = $("w").value, n = signup ? $("n").value.trim() : "";
@@ -110,13 +110,12 @@ function authView(){
     try {
       if (signup) {
         const c = await createUserWithEmailAndPassword(auth, mail(p), w);
-        const first = (await getDocs(query(collection(db,"users"), limit(1)))).empty;
         let inv = null; try { const iv = await getDoc(doc(db,"invites",p)); if (iv.exists()) inv = iv.data(); } catch(e){}
-        await setDoc(doc(db,"users",c.user.uid), {name: inv?.name || n, phone:p, bags: inv?.bags || 0, ...(inv?.photo ? {photo:inv.photo} : {}), role: first ? "owner" : "mistri", created: serverTimestamp()});
+        await setDoc(doc(db,"users",c.user.uid), {name: inv?.name || n, phone:p, bags: inv?.bags || 0, ...(inv?.photo ? {photo:inv.photo} : {}), role: "mistri", created: serverTimestamp()});
         if (inv) deleteDoc(doc(db,"invites",p)).catch(()=>{});
       } else await signInWithEmailAndPassword(auth, mail(p), w);
     } catch (x) {
-      $("e").textContent = x.code === "auth/email-already-in-use" ? t("eused") : x.code === "auth/invalid-credential" ? t("ebad") : "Error: " + x.code;
+      $("e").textContent = ({"auth/email-already-in-use":t("eused"),"auth/invalid-credential":t("ebad"),"auth/wrong-password":t("ebad"),"auth/user-not-found":t("ebad"),"auth/too-many-requests":t("etoo"),"auth/network-request-failed":t("enet"),"auth/weak-password":t("e6")})[x.code] || ("Error: " + x.code);
       $("go").disabled = false;
     }
   };
@@ -144,6 +143,16 @@ function openBuy(p){
   g("#by").onclick = async () => { const n = q(), a = g("#ba").value.trim(); if (n < 1) return; if (!a && !loc) return g("#be").textContent = t("addr");
     try { localStorage.setItem("addr", a); } catch(e){}
     await addDoc(collection(db,"orders"), {uid:U.uid, name:ME.name, phone:ME.phone, pid:p.id, item:p.name + (p.type ? " " + p.type : ""), price:p.price, unit:p.unit, qty:n, total:n * p.price, address:a, loc, status:"new", hist:{new:serverTimestamp()}, ts:serverTimestamp()}); md.remove(); };
+}
+
+function showTarget(m, g){
+  const txt = `बधाई हो ${m.name}! 🎉 आपने ${g} कट्टे का टारगेट पूरा कर लिया है। आपका गिफ्ट${S.giftText ? " (" + S.giftText + ")" : ""} तैयार है, दुकान पर आकर ले जाइए। - ${SHOP}`;
+  const md = document.createElement("div"); md.style.cssText = "position:fixed;inset:0;background:#0008;display:flex;align-items:center;z-index:9;padding:16px";
+  md.innerHTML = `<div class="card" style="width:100%;max-width:480px;margin:0 auto"><b>${t("tdone")}</b><div class="msg">${esc(txt)}</div><div class="row"><button class="sm" id="tw">${t("wa")}</button><button class="sm" id="ts">${t("sms")}</button><button class="sm" style="background:#78716c" id="tx">✖</button></div></div>`;
+  document.body.appendChild(md);
+  md.querySelector("#tw").onclick = () => window.open("https://wa.me/91" + m.phone + "?text=" + encodeURIComponent(txt), "_blank");
+  md.querySelector("#ts").onclick = () => { location.href = "sms:" + m.phone + "?body=" + encodeURIComponent(txt); };
+  md.querySelector("#tx").onclick = () => md.remove();
 }
 
 function buildMistri(){
@@ -180,4 +189,66 @@ function buildOwner(){
     if (d.pa === "del" && confirm(t("delq"))) await deleteDoc(doc(db,"products",p.id)); };
   $("ml").onclick = async e => { const id = e.target.dataset.dm; if (id && confirm(t("delq"))) await deleteDoc(doc(db,"messages",id)); };
   $("ab").onclick = async () => { const n = $("an").value.trim(), ph = $("ap").value.trim(); $("ae").textContent = "";
-    if (!n) return $("ae").textCon
+    if (!n) return $("ae").textContent = t("en"); if (!/^\d{10}$/.test(ph)) return $("ae").textContent = t("e10");
+    if ([...USERS, ...INV].some(x => x.phone === ph)) return $("ae").textContent = t("dup");
+    await setDoc(doc(db,"invites",ph), {name:n, phone:ph, bags:0}); $("an").value = ""; $("ap").value = ""; };
+  $("ms").onclick = async () => { const x = $("mt").value.trim(); if (x) { await addDoc(collection(db,"messages"), {text:x, ts:serverTimestamp()}); $("mt").value = ""; } };
+  const inv = m => `नमस्ते ${m.name}! ${SHOP} का ऐप आ गया है। कट्टों पर गिफ्ट, ऑर्डर और ऑफर देखने के लिए इसी नंबर से अकाउंट बनाइए: ` + location.origin + location.pathname;
+  $("us").onclick = async e => { const d = e.target.dataset, id = d.u || d.id; if (!id) return; const col = d.c, m = [...USERS, ...INV].find(x => x.id === id); if (!m) return;
+    if (d.a === "wa") return void window.open("https://wa.me/91" + m.phone + "?text=" + encodeURIComponent(inv(m)), "_blank");
+    if (d.a === "sms") return void (location.href = "sms:" + m.phone + "?body=" + encodeURIComponent(inv(m)));
+    if (d.a === "ph") return pick(x => updateDoc(doc(db,col,id), {photo:x}));
+    if (d.a === "del") { if (confirm(t("delq"))) await deleteDoc(doc(db,col,id)); return; }
+    if (d.u) { const n = parseInt($("b-"+id).value); if (n) { const g = S.giftBags || 100, b0 = m.bags || 0; await updateDoc(doc(db,col,id), {bags:increment(n)}); $("b-"+id).value = ""; if (Math.floor((b0 + n) / g) > Math.floor(b0 / g)) showTarget(m, g); } } };
+  unsubs.push(onSnapshot(collection(db,"invites"), s => { INV = s.docs.map(d => ({id:d.id, pend:true, ...d.data()})); paint(); }));
+  $("ps").onclick = async e => { if (e.target.dataset.rm) return void await setDoc(doc(db,"settings","shop"), {banner:""}, {merge:true}); const k = e.target.dataset.p; if (!k) return; pick(async d => { await setDoc(doc(db,"settings","shop"), {[k]:d}, {merge:true}); }, k === "banner" ? 800 : 320); };
+  $("sv").onclick = async () => { await setDoc(doc(db,"settings","shop"), {giftText:$("gt").value.trim(), giftBags:parseInt($("gb").value) || 100}, {merge:true}); $("se").style.color = "#16a34a"; $("se").textContent = t("saved"); setTimeout(() => $("se").textContent = "", 2500); };
+  unsubs.push(onSnapshot(query(collection(db,"orders"), orderBy("ts","desc"), limit(40)), s => { ORD = s.docs.map(d => ({id:d.id, ...d.data()})); paint(); }));
+  unsubs.push(onSnapshot(collection(db,"users"), s => { USERS = s.docs.filter(d => d.data().role === "mistri").map(d => ({id:d.id, ...d.data()})); paint(); }));
+}
+function fillSet(){ $("gt").value = S.giftText || ""; $("gb").value = S.giftBags || 100; }
+
+function paint(){
+  head(); if (!ME) return;
+  $("oc") && ($("oc").innerHTML = ownerCard());
+  $("ml") && ($("ml").innerHTML = msgHtml());
+  if (ME.role === "owner") {
+    document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === tab));
+    ["o","p","m","s"].forEach(k => $("p" + k).classList.toggle("hidden", tab !== k));
+    $("ol").innerHTML = ordHtml(ORD, false);
+    $("pl").innerHTML = PRO.length ? PRO.map(p => `<div class="card" style="padding:10px"><div class="row"><img class="av" style="border-radius:10px;width:72px;height:72px" src="${p.photo || DEF}"><div style="flex:1"><b>${esc(p.name)}</b> ${p.type ? `<span class="tag">${esc(p.type)}</span>` : ""}<br>${rs(p.price)} / ${esc(p.unit)}</div></div><div class="row" style="margin-top:8px"><button class="sm" style="background:#78716c" data-pa="ph" data-id="${p.id}">📷</button><button class="sm" data-pa="ed" data-id="${p.id}">✏️</button><button class="sm" style="background:#dc2626" data-pa="del" data-id="${p.id}">🗑</button></div></div>`).join("") : `<p>${t("nopro")}</p>`;
+    const all = [...USERS, ...INV]; $("us").innerHTML = all.length ? all.map(m => { const c = m.pend ? "invites" : "users"; return `<div class="row" style="margin:12px 0 4px"><img class="av" src="${m.photo || DEF}"><div style="flex:1"><b>${esc(m.name)}</b> · ${esc(m.phone)} ${m.pend ? `<span class="tag">${t("pend")}</span>` : ""}<br>${m.bags} / ${Math.floor(m.bags/(S.giftBags||100))} ${t("gift")}</div></div>
+      <div class="row" style="flex-wrap:wrap"><button class="sm" data-a="wa" data-id="${m.id}">${t("wa")}</button><button class="sm" data-a="sms" data-id="${m.id}">${t("sms")}</button><button class="sm" style="background:#78716c" data-a="ph" data-id="${m.id}" data-c="${c}">📷</button><button class="sm" style="background:#dc2626" data-a="del" data-id="${m.id}" data-c="${c}">🗑</button></div>
+      <div class="row" style="margin-top:6px"><input type="number" placeholder="${t("nb")}" id="b-${m.id}"><button class="sm" data-u="${m.id}" data-c="${c}">${t("addb")}</button></div>`; }).join("") : `<p>${t("nomis")}</p>`;
+    $("gp").src = S.giftPhoto || DEF; $("gp").style.display = S.giftPhoto ? "block" : "none"; $("bp").src = S.banner || DEF; $("bp").style.display = S.banner ? "block" : "none";
+  } else {
+    $("bn").innerHTML = S.banner ? `<img class="gift" style="margin:0 0 12px;max-height:240px" src="${S.banner}">` : "";
+    const g = S.giftBags || 100, into = ME.bags % g;
+    $("mc").innerHTML = `<div class="row"><img class="av" id="mp" src="${ME.photo || DEF}"><div style="flex:1">${t("hello")}, <b>${esc(ME.name)}</b> 🙏<br><button class="link" style="text-align:left;padding:2px 0" id="cp">${t("photo")}</button></div></div>
+      <div class="num">${ME.bags}</div><div>${t("bags")}</div><br><div class="bar"><div style="width:${into/g*100}%"></div></div>
+      <p>${t("need")} <b>${g - into}</b><br>${t("gifts")} <b>${Math.floor(ME.bags/g)}</b></p>`;
+    $("cp").onclick = () => pick(d => updateDoc(doc(db,"users",U.uid), {photo:d}));
+    $("gc").innerHTML = S.giftPhoto || S.giftText ? `<b>${t("giftnow").replace("{g}", g)}</b> ${esc(S.giftText || "")}${S.giftPhoto ? `<img class="gift" src="${S.giftPhoto}">` : ""}` : "";
+    $("gc").style.display = S.giftPhoto || S.giftText ? "block" : "none";
+    $("pr").innerHTML = PRO.length ? PRO.map(proCard).join("") : `<p>${t("nopro")}</p>`;
+    $("ol").innerHTML = ordHtml(ORD, true);
+  }
+}
+
+function build(){ ME.role === "owner" ? buildOwner() : buildMistri(); paint(); }
+
+onAuthStateChanged(auth, user => {
+  stopAll(); U = user; ME = null;
+  if (!user) return authView();
+  $("out").classList.remove("hidden"); $("app").innerHTML = "<p>...</p>";
+  unsubs.push(onSnapshot(doc(db,"settings","shop"), s => { S = s.data() || {}; paint(); }));
+  unsubs.push(onSnapshot(collection(db,"products"), s => { PRO = s.docs.map(d => ({id:d.id, ...d.data()})).sort((a,b) => (a.name||"").localeCompare(b.name||"")); paint(); }));
+  unsubs.push(onSnapshot(query(collection(db,"messages"), orderBy("ts","desc"), limit(15)), s => { MSGS = s.docs.map(d => ({id:d.id, ...d.data()})); paint(); }));
+  unsubs.push(onSnapshot(doc(db,"users",user.uid), s => { if (!s.exists()) { setTimeout(() => { if (!ME) $("app").innerHTML = `<div class="card"><p>${t("gone")}</p></div>`; }, 5000); return; } const first = !ME; ME = s.data(); first ? build() : paint(); }));
+});
+$("out").onclick = () => signOut(auth);
+$("lg").onclick = () => { lang = lang === "hi" ? "en" : "hi"; try { localStorage.setItem("lang", lang); } catch(e){} U ? (ME && build()) : authView(); head(); };
+head(); authView();
+</script>
+</body>
+</html>
