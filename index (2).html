@@ -179,4 +179,85 @@ function buildOwner(){
   <div id="pp"><div class="card"><b>${t("addp")}</b><input id="pn" placeholder="${t("pname")}"><select id="pt"><option value="">${t("ptype")}</option><option>PPC</option><option>OPC</option></select><input id="pc" type="number" placeholder="${t("pprice")}"><input id="pu" placeholder="${t("punit")}"><button class="big" id="pa">${t("addb2")}</button><div id="pe" class="err"></div></div><div id="pl"></div></div>
   <div id="pm"><div class="card"><b>${t("bcast")}</b><input id="mt"><button class="big" id="ms">${t("send")}</button><div id="ml"></div></div>
     <div class="card"><b>${t("addm")}</b><input id="an" placeholder="${t("name")}"><input id="ap" type="tel" maxlength="10" placeholder="${t("phone")}"><button class="big" id="ab">${t("addb2")}</button><div id="ae" class="err"></div></div>
-    <div class="card"><b>${t("mlist")}</b><div id="us"></div></div></d
+    <div class="card"><b>${t("mlist")}</b><div id="us"></div></div></div>
+  <div id="ps"><div class="card">
+    <b>${t("slogo")}</b><br><button class="sm" data-p="logo">${t("photo")}</button><br><br>
+    <b>${t("sown")}</b><br><button class="sm" data-p="ownerPhoto">${t("photo")}</button><br><br>
+    <b>${t("sgift")}</b><br><button class="sm" data-p="giftPhoto">${t("photo")}</button><img class="gift" id="gp"><br>
+    <b>${t("sbanner")}</b><br><button class="sm" data-p="banner">${t("photo")}</button> <button class="sm" style="background:#dc2626" data-rm="1">${t("del")}</button><img class="gift" id="bp"><br><br>
+    <b>${t("stext")}</b><input id="gt"><b>${t("starget")}</b><input id="gb" type="number">
+    <button class="big" id="sv">${t("save")}</button><div id="se" class="err"></div></div></div>`;
+  document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => { tab = b.dataset.t; if (tab === "s") fillSet(); paint(); });
+  $("ol").onclick = async e => { const id = e.target.dataset.o; if (!id) return; const nx = KEYS[KEYS.indexOf(e.target.dataset.s) + 1]; if (nx) await updateDoc(doc(db,"orders",id), {status:nx, ["hist." + nx]: serverTimestamp()}); };
+  $("pa").onclick = async () => { const n = $("pn").value.trim(), pr = Number($("pc").value), u = $("pu").value.trim(); if (!n || !pr || !u) return $("pe").textContent = t("pname") + " / " + t("pprice") + " / " + t("punit");
+    $("pe").textContent = ""; await addDoc(collection(db,"products"), {name:n, type:$("pt").value, price:pr, unit:u, photo:""}); $("pn").value = ""; $("pc").value = ""; $("pu").value = ""; $("pt").value = ""; };
+  $("pl").onclick = async e => { const d = e.target.dataset, p = PRO.find(x => x.id === d.id); if (!p) return;
+    if (d.pa === "ph") pick(x => updateDoc(doc(db,"products",p.id), {photo:x}));
+    if (d.pa === "ed") { const n = prompt(t("pname"), p.name); if (n === null) return; const pr = prompt(t("pprice"), p.price); if (pr === null) return; await updateDoc(doc(db,"products",p.id), {name:n.trim() || p.name, price:Number(pr) || p.price}); }
+    if (d.pa === "del" && confirm(t("delq"))) await deleteDoc(doc(db,"products",p.id)); };
+  $("ml").onclick = async e => { const id = e.target.dataset.dm; if (id && confirm(t("delq"))) await deleteDoc(doc(db,"messages",id)); };
+  $("ab").onclick = async () => { const n = $("an").value.trim(), ph = $("ap").value.trim(); $("ae").textContent = "";
+    if (!n) return $("ae").textContent = t("en"); if (!/^\d{10}$/.test(ph)) return $("ae").textContent = t("e10");
+    if ([...USERS, ...INV].some(x => x.phone === ph)) return $("ae").textContent = t("dup");
+    await setDoc(doc(db,"invites",ph), {name:n, phone:ph, bags:0}); $("an").value = ""; $("ap").value = ""; };
+  $("ms").onclick = async () => { const x = $("mt").value.trim(); if (x) { await addDoc(collection(db,"messages"), {text:x, ts:serverTimestamp()}); $("mt").value = ""; } };
+  const inv = m => `नमस्ते ${m.name}! ${SHOP} का ऐप आ गया है। कट्टों पर गिफ्ट, ऑर्डर और ऑफर देखने के लिए इसी नंबर से अकाउंट बनाइए: ` + location.origin + location.pathname;
+  $("us").onclick = async e => { const d = e.target.dataset, id = d.u || d.id; if (!id) return; const col = d.c, m = [...USERS, ...INV].find(x => x.id === id); if (!m) return;
+    if (d.a === "wa") return void window.open("https://wa.me/91" + m.phone + "?text=" + encodeURIComponent(inv(m)), "_blank");
+    if (d.a === "sms") return void (location.href = "sms:" + m.phone + "?body=" + encodeURIComponent(inv(m)));
+    if (d.a === "ph") return pick(x => updateDoc(doc(db,col,id), {photo:x}));
+    if (d.a === "del") { if (confirm(t("delq"))) await deleteDoc(doc(db,col,id)); return; }
+    if (d.u) { const n = parseInt($("b-"+id).value); if (n) { const g = S.giftBags || 100, b0 = m.bags || 0; await updateDoc(doc(db,col,id), {bags:increment(n)}); $("b-"+id).value = ""; if (Math.floor((b0 + n) / g) > Math.floor(b0 / g)) showTarget(m, g); } } };
+  unsubs.push(onSnapshot(collection(db,"invites"), s => { INV = s.docs.map(d => ({id:d.id, pend:true, ...d.data()})); paint(); }));
+  $("ps").onclick = async e => { if (e.target.dataset.rm) return void await setDoc(doc(db,"settings","shop"), {banner:""}, {merge:true}); const k = e.target.dataset.p; if (!k) return; pick(async d => { await setDoc(doc(db,"settings","shop"), {[k]:d}, {merge:true}); }, k === "banner" ? 800 : 320); };
+  $("sv").onclick = async () => { await setDoc(doc(db,"settings","shop"), {giftText:$("gt").value.trim(), giftBags:parseInt($("gb").value) || 100}, {merge:true}); $("se").style.color = "#16a34a"; $("se").textContent = t("saved"); setTimeout(() => $("se").textContent = "", 2500); };
+  unsubs.push(onSnapshot(query(collection(db,"orders"), orderBy("ts","desc"), limit(40)), s => { ORD = s.docs.map(d => ({id:d.id, ...d.data()})); paint(); }));
+  unsubs.push(onSnapshot(collection(db,"users"), s => { USERS = s.docs.filter(d => d.data().role === "mistri").map(d => ({id:d.id, ...d.data()})); paint(); }));
+}
+function fillSet(){ $("gt").value = S.giftText || ""; $("gb").value = S.giftBags || 100; }
+
+function paint(){
+  head(); if (!ME) return;
+  $("oc") && ($("oc").innerHTML = ownerCard());
+  $("ml") && ($("ml").innerHTML = msgHtml());
+  if (ME.role === "owner") {
+    document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.t === tab));
+    ["o","p","m","s"].forEach(k => $("p" + k).classList.toggle("hidden", tab !== k));
+    $("ol").innerHTML = ordHtml(ORD, false);
+    $("pl").innerHTML = PRO.length ? PRO.map(p => `<div class="card" style="padding:10px"><div class="row"><img class="av" style="border-radius:10px;width:72px;height:72px" src="${p.photo || DEF}"><div style="flex:1"><b>${esc(p.name)}</b> ${p.type ? `<span class="tag">${esc(p.type)}</span>` : ""}<br>${rs(p.price)} / ${esc(p.unit)}</div></div><div class="row" style="margin-top:8px"><button class="sm" style="background:#78716c" data-pa="ph" data-id="${p.id}">📷</button><button class="sm" data-pa="ed" data-id="${p.id}">✏️</button><button class="sm" style="background:#dc2626" data-pa="del" data-id="${p.id}">🗑</button></div></div>`).join("") : `<p>${t("nopro")}</p>`;
+    const all = [...USERS, ...INV]; $("us").innerHTML = all.length ? all.map(m => { const c = m.pend ? "invites" : "users"; return `<div class="row" style="margin:12px 0 4px"><img class="av" src="${m.photo || DEF}"><div style="flex:1"><b>${esc(m.name)}</b> · ${esc(m.phone)} ${m.pend ? `<span class="tag">${t("pend")}</span>` : ""}<br>${m.bags} / ${Math.floor(m.bags/(S.giftBags||100))} ${t("gift")}</div></div>
+      <div class="row" style="flex-wrap:wrap"><button class="sm" data-a="wa" data-id="${m.id}">${t("wa")}</button><button class="sm" data-a="sms" data-id="${m.id}">${t("sms")}</button><button class="sm" style="background:#78716c" data-a="ph" data-id="${m.id}" data-c="${c}">📷</button><button class="sm" style="background:#dc2626" data-a="del" data-id="${m.id}" data-c="${c}">🗑</button></div>
+      <div class="row" style="margin-top:6px"><input type="number" placeholder="${t("nb")}" id="b-${m.id}"><button class="sm" data-u="${m.id}" data-c="${c}">${t("addb")}</button></div>`; }).join("") : `<p>${t("nomis")}</p>`;
+    $("gp").src = S.giftPhoto || DEF; $("gp").style.display = S.giftPhoto ? "block" : "none"; $("bp").src = S.banner || DEF; $("bp").style.display = S.banner ? "block" : "none";
+  } else {
+    $("bn").innerHTML = S.banner ? `<img class="gift" style="margin:0 0 12px;max-height:240px" src="${S.banner}">` : "";
+    const g = S.giftBags || 100, into = ME.bags % g;
+    $("mc").innerHTML = `<div class="row"><img class="av" id="mp" src="${ME.photo || DEF}"><div style="flex:1">${t("hello")}, <b>${esc(ME.name)}</b> 🙏<br><button class="link" style="text-align:left;padding:2px 0" id="cp">${t("photo")}</button></div></div>
+      <div class="num">${ME.bags}</div><div>${t("bags")}</div><br><div class="bar"><div style="width:${into/g*100}%"></div></div>
+      <p>${t("need")} <b>${g - into}</b><br>${t("gifts")} <b>${Math.floor(ME.bags/g)}</b></p>`;
+    $("cp").onclick = () => pick(d => updateDoc(doc(db,"users",U.uid), {photo:d}));
+    $("gc").innerHTML = S.giftPhoto || S.giftText ? `<b>${t("giftnow").replace("{g}", g)}</b> ${esc(S.giftText || "")}${S.giftPhoto ? `<img class="gift" src="${S.giftPhoto}">` : ""}` : "";
+    $("gc").style.display = S.giftPhoto || S.giftText ? "block" : "none";
+    $("pr").innerHTML = PRO.length ? PRO.map(proCard).join("") : `<p>${t("nopro")}</p>`;
+    $("ol").innerHTML = ordHtml(ORD, true);
+  }
+}
+
+function build(){ ME.role === "owner" ? buildOwner() : buildMistri(); paint(); }
+
+onAuthStateChanged(auth, user => {
+  stopAll(); U = user; ME = null;
+  if (!user) return authView();
+  $("out").classList.remove("hidden"); $("app").innerHTML = "<p>...</p>";
+  unsubs.push(onSnapshot(doc(db,"settings","shop"), s => { S = s.data() || {}; paint(); }));
+  unsubs.push(onSnapshot(collection(db,"products"), s => { PRO = s.docs.map(d => ({id:d.id, ...d.data()})).sort((a,b) => (a.name||"").localeCompare(b.name||"")); paint(); }));
+  unsubs.push(onSnapshot(query(collection(db,"messages"), orderBy("ts","desc"), limit(15)), s => { MSGS = s.docs.map(d => ({id:d.id, ...d.data()})); paint(); }));
+  unsubs.push(onSnapshot(doc(db,"users",user.uid), s => { if (!s.exists()) { setTimeout(() => { if (!ME) $("app").innerHTML = `<div class="card"><p>${t("gone")}</p></div>`; }, 5000); return; } const first = !ME; ME = s.data(); first ? build() : paint(); }));
+});
+$("out").onclick = () => signOut(auth);
+$("lg").onclick = () => { lang = lang === "hi" ? "en" : "hi"; try { localStorage.setItem("lang", lang); } catch(e){} U ? (ME && build()) : authView(); head(); };
+head(); authView();
+})().catch(e => { document.getElementById("app").innerHTML = "<p style='color:red;padding:12px'>Error: " + e.message + "</p>"; });
+</script>
+</body>
+</html>
