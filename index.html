@@ -36,14 +36,22 @@ small{color:#78716c}
 </style>
 </head>
 <body>
-<header><img id="logo" alt=""><b id="shop"></b><button id="lg"></button><button id="out" class="hidden"></button></header>
+<header><img id="logo" alt=""><b id="shop">Ak Chauhan Cement Store</b><button id="lg"></button><button id="out" class="hidden"></button></header>
 <main id="app"><p style="padding:12px">⏳ Loading...</p></main>
 <script>window.onerror=function(m){document.getElementById("app").innerHTML="<p style='color:red;padding:12px'>Error: "+m+"</p>"};</script>
 
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,doc,setDoc,getDocs,collection,query,where,orderBy,limit,onSnapshot,addDoc,updateDoc,deleteDoc,getDoc,increment,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+(async () => {
+const G = "https://www.gstatic.com/firebasejs/10.12.2/", J = "https://cdn.jsdelivr.net/npm/firebase@10.12.2/";
+const SRC = [[G+"firebase-app.js", G+"firebase-auth.js", G+"firebase-firestore.js"], [J+"app/+esm", J+"auth/+esm", J+"firestore/+esm"]];
+let M = null;
+for (const [a, b, c] of SRC) {
+  try { M = await Promise.race([Promise.all([import(a), import(b), import(c)]), new Promise((_, r) => setTimeout(() => r(new Error("timeout")), 12000))]); break; } catch (e) {}
+}
+if (!M) { document.getElementById("app").innerHTML = "<div style='padding:14px'><p><b>इंटरनेट धीमा है या ऐप नहीं खुल पा रहा।</b></p><p>WiFi और मोबाइल डेटा बदलकर देखें।</p><button onclick='location.reload()' style='padding:12px;font-size:16px'>🔄 फिर से कोशिश करें</button><p>दुकान: <a href='tel:9456897702'>9456897702</a></p></div>"; return; }
+const {initializeApp} = M[0];
+const {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} = M[1];
+const {getFirestore,doc,setDoc,getDocs,collection,query,where,orderBy,limit,onSnapshot,addDoc,updateDoc,deleteDoc,getDoc,increment,serverTimestamp} = M[2];
 
 const app = initializeApp({
   apiKey: "AIzaSyDW36m4WsVthRtKWGW1a-gcxEvQ_1lraPs",
@@ -171,11 +179,4 @@ function buildOwner(){
   <div id="pp"><div class="card"><b>${t("addp")}</b><input id="pn" placeholder="${t("pname")}"><select id="pt"><option value="">${t("ptype")}</option><option>PPC</option><option>OPC</option></select><input id="pc" type="number" placeholder="${t("pprice")}"><input id="pu" placeholder="${t("punit")}"><button class="big" id="pa">${t("addb2")}</button><div id="pe" class="err"></div></div><div id="pl"></div></div>
   <div id="pm"><div class="card"><b>${t("bcast")}</b><input id="mt"><button class="big" id="ms">${t("send")}</button><div id="ml"></div></div>
     <div class="card"><b>${t("addm")}</b><input id="an" placeholder="${t("name")}"><input id="ap" type="tel" maxlength="10" placeholder="${t("phone")}"><button class="big" id="ab">${t("addb2")}</button><div id="ae" class="err"></div></div>
-    <div class="card"><b>${t("mlist")}</b><div id="us"></div></div></div>
-  <div id="ps"><div class="card">
-    <b>${t("slogo")}</b><br><button class="sm" data-p="logo">${t("photo")}</button><br><br>
-    <b>${t("sown")}</b><br><button class="sm" data-p="ownerPhoto">${t("photo")}</button><br><br>
-    <b>${t("sgift")}</b><br><button class="sm" data-p="giftPhoto">${t("photo")}</button><img class="gift" id="gp"><br>
-    <b>${t("sbanner")}</b><br><button class="sm" data-p="banner">${t("photo")}</button> <button class="sm" style="background:#dc2626" data-rm="1">${t("del")}</button><img class="gift" id="bp"><br><br>
-    <b>${t("stext")}</b><input id="gt"><b>${t("starget")}</b><input id="gb" type="number">
-    <button class="big" id="s
+    <div class="card"><b>${t("mlist")}</b><div id="us"></div></div></d
