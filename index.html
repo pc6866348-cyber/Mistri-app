@@ -224,7 +224,7 @@ function openBuy(p){
   g("#bl").onclick = () => navigator.geolocation && navigator.geolocation.getCurrentPosition(x => { loc = {lat:x.coords.latitude, lng:x.coords.longitude}; g("#bl").textContent = "✅ " + t("locok"); }, () => g("#be").textContent = t("locno"));
   g("#by").onclick = async () => { const pd = document.getElementById("pd"); const n = q(), a = g("#ba").value.trim(); if (n < 1) return; if (!a && !loc) return g("#be").textContent = t("addr");
     try { localStorage.setItem("addr", a); } catch(e){}
-    await addDoc(collection(db,"orders"), {uid:U.uid, name:ME.name, phone:ME.phone, pid:p.id, item:p.name + (p.type ? " " + p.type : ""), price:p.price, unit:p.unit, qty:n, total:n * p.price, address:a, loc, status:"new", hist:{new:serverTimestamp()}, ts:serverTimestamp()}); if (S.ntfy) fetch("https://ntfy.sh/" + encodeURIComponent(S.ntfy), {method:"POST", headers:{Title:"New Order", Priority:"high", Tags:"shopping_cart"}, body: ME.name + " (" + ME.phone + ")\n" + p.name + (p.type ? " " + p.type : "") + " x " + n + " = " + rs(n * p.price) + "\n" + (a || "")}).catch(() => {}); md.remove(); if (pd) pd.remove(); };
+    await addDoc(collection(db,"orders"), {uid:U.uid, name:ME.name, phone:ME.phone, pid:p.id, item:p.name + (p.type ? " " + p.type : ""), price:p.price, unit:p.unit, qty:n, total:n * p.price, address:a, loc, status:"new", hist:{new:serverTimestamp()}, ts:serverTimestamp()}); if (S.ntfy) fetch("https://ntfy.sh/" + encodeURIComponent(S.ntfy) + "?title=New%20Order&priority=high&tags=shopping_cart", {method:"POST", body: ME.name + " (" + ME.phone + ")\n" + p.name + (p.type ? " " + p.type : "") + " x " + n + " = " + rs(n * p.price) + "\n" + (a || "")}).catch(() => {}); md.remove(); if (pd) pd.remove(); };
 }
 
 function showTarget(m, g){
